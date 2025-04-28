@@ -129,3 +129,6 @@ ios/Runner.xcworkspace/contents.xcworkspacedata
 .vscode/settings.json
 
 
+*.xcconfig
+*.xcconfig
+*.xcconfig
