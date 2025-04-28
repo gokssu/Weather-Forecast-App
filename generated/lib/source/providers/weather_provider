@@ -1,0 +1,20 @@
+part 'user_provider.g.dart';
+
+// dioProvider
+final dioProvider = Provider<Dio>((ref) => Dio());
+
+// userServiceProvider
+final userServiceProvider = Provider<UserService>((ref) => UserService(ref.watch(dioProvider)));
+
+// userRepositoryProvider
+final userRepositoryProvider = Provider<UserRepository>((ref) => UserRepository(ref.watch(userServiceProvider)));
+
+// userNotifierProvider
+@riverpod
+class UserNotifier extends _$UserNotifier {
+  @override
+  FutureOr<List<User>> build() async {
+    final repository = ref.watch(userRepositoryProvider);
+    return await repository.getUsers();
+  }
+}
