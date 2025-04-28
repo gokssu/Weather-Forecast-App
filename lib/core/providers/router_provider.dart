@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kartal/kartal.dart';
+import 'package:weather_forecast_app/features/home/home_view/home_screen.dart';
+import 'package:weather_forecast_app/features/splash/splash_screen.dart';
 
 class Routes {
   static const initial = '/';
@@ -18,7 +20,10 @@ final routerProvider = Provider<GoRouter>((ref) {
     navigatorKey: navigatorKey,
     initialLocation: '/',
     errorBuilder: (context, state) => ErrorPage(state: state),
-    routes: [],
+    routes: [
+      buildRoute(Routes.initial, const SplashScreen()),
+      buildRoute(Routes.home, const HomeScreen()),
+    ],
   );
 });
 

@@ -17,7 +17,7 @@ class HomeScreen extends ConsumerWidget {
       backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('Storm Mobile Core Project'),
+        title: const Text('Weather App'),
         actions: [
           IconButton(
             icon: Icon(
