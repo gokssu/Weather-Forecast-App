@@ -130,5 +130,6 @@ ios/Runner.xcworkspace/contents.xcworkspacedata
 
 
 *.xcconfig
-*.xcconfig
-*.xcconfig
+
+*.ios/
+*.android/
