@@ -21,7 +21,6 @@ dependencies:
   riverpod_annotation: ^2.6.1
   flutter_riverpod: ^2.6.1
 
-
   #localStorage
   shared_preferences: ^2.5.3
   hive: ^2.2.3
@@ -50,9 +49,12 @@ dependencies:
   easy_logger: ^0.0.2
   logger: ^2.5.0
   google_fonts: ^6.2.1
+  geolocator: ^11.0.0
+  uuid: ^4.2.1 
   
   generated:
     path: ./generated
+  google_places_flutter: ^2.1.0
   
 dev_dependencies:
   flutter_test:
@@ -60,7 +62,6 @@ dev_dependencies:
   very_good_analysis: ^7.0.0
   flutter_launcher_icons: ^0.14.3
   flutter_lints: ^5.0.0
-  
 
 
 

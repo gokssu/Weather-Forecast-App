@@ -36,73 +36,73 @@ class DailyWeather extends HiveObject {
   factory DailyWeather.fromJson(Map<String, dynamic> json) =>
       _$DailyWeatherFromJson(json);
   @HiveField(0)
-  final int dt;
+  final int? dt;
 
   @HiveField(1)
-  final int sunrise;
+  final int? sunrise;
 
   @HiveField(2)
-  final int sunset;
+  final int? sunset;
 
   @HiveField(3)
-  final double tempDay;
+  final double? tempDay;
 
   @HiveField(4)
-  final double tempMin;
+  final double? tempMin;
 
   @HiveField(5)
-  final double tempMax;
+  final double? tempMax;
 
   @HiveField(6)
-  final double tempNight;
+  final double? tempNight;
 
   @HiveField(7)
-  final double tempEve;
+  final double? tempEve;
 
   @HiveField(8)
-  final double tempMorn;
+  final double? tempMorn;
 
   @HiveField(9)
-  final double feelsLikeDay;
+  final double? feelsLikeDay;
 
   @HiveField(10)
-  final double feelsLikeNight;
+  final double? feelsLikeNight;
 
   @HiveField(11)
-  final double feelsLikeEve;
+  final double? feelsLikeEve;
 
   @HiveField(12)
-  final double feelsLikeMorn;
+  final double? feelsLikeMorn;
 
   @HiveField(13)
-  final int pressure;
+  final int? pressure;
 
   @HiveField(14)
-  final int humidity;
+  final int? humidity;
 
   @HiveField(15)
-  final String weatherMain;
+  final String? weatherMain;
 
   @HiveField(16)
-  final String weatherDescription;
+  final String? weatherDescription;
 
   @HiveField(17)
-  final String weatherIcon;
+  final String? weatherIcon;
 
   @HiveField(18)
-  final double windSpeed;
+  final double? windSpeed;
 
   @HiveField(19)
-  final int windDeg;
+  final int? windDeg;
 
   @HiveField(20)
   final double? windGust;
 
   @HiveField(21)
-  final int clouds;
+  final int? clouds;
 
   @HiveField(22)
-  final double pop;
+  final double? pop;
 
   @HiveField(23)
   final double? rain;

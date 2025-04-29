@@ -2,5 +2,14 @@
   "Current": "Şu an",
   "Oops!! There are no results found.": "Oops!! Hiçbir sonuç bulunamadı.",
   "Language :": "Dil :",
-  "Dark Mode :": "Karanlık Mod :"
+  "Dark Mode :": "Karanlık Mod :",
+  "Location permissions permanently denied.": "Konum izinleri kalıcı olarak reddedildi.",
+  "Location permission denied.": "Konum izni reddedildi.",
+  "Location services are not open.": "Konum servisleri açık değil.",
+  "Location is not found.": "Konum bulunamadı.",
+  "Location error:": "Konum hatası:",
+  "Open Location Settings": "Konum Ayarlarını Aç",
+  "Weather could not be received": "Hava durumu alınamadı",
+  "Min:": "En az :",
+  "Max:": "En fazla :"
 }
