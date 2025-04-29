@@ -23,8 +23,8 @@ final class AppLocalization extends EasyLocalization {
   /// Change project language by using [Locales]
   static Future<void> updateLanguage({
     required BuildContext context,
-    required Locales value,
-  }) => context.setLocale(value.locale);
+    required Locale value,
+  }) => context.setLocale(value);
 }
 
 /// Project locale enum for operation and configuration

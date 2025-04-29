@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     getDeviceInfo();
     Future.delayed(const Duration(seconds: 3), () {
       if (!mounted) return;
-      context.go(Routes.home);
+      context.go(Routes.current);
     });
   }
 

@@ -31,75 +31,106 @@ TextTheme createTextTheme(
   return textTheme;
 }
 
-const defaultTextSize = 14.0;
+const defaultTextSize = 16.0;
 
 final lightTextTheme = ThemeData.light().textTheme.copyWith(
   headlineLarge: const TextStyle(
     fontSize: defaultTextSize * 2,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
+  ),
+  headlineMedium: const TextStyle(
+    fontSize: defaultTextSize * 1.5,
+    fontWeight: FontWeight.w700,
+  ),
+  headlineSmall: const TextStyle(
+    fontSize: defaultTextSize * 1.2,
+    fontWeight: FontWeight.w700,
   ),
   titleLarge: const TextStyle(
-    fontSize: defaultTextSize * 1.3,
+    fontSize: defaultTextSize * 1.2,
     fontWeight: FontWeight.w600,
   ),
   titleMedium: const TextStyle(
     fontSize: defaultTextSize,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
   ),
   titleSmall: const TextStyle(
     fontSize: defaultTextSize - 2,
+    fontWeight: FontWeight.w600,
+  ),
+  bodyLarge: const TextStyle(
+    fontSize: defaultTextSize + 2,
     fontWeight: FontWeight.w500,
   ),
   bodyMedium: const TextStyle(
     fontSize: defaultTextSize,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
   ),
   bodySmall: const TextStyle(
     fontSize: defaultTextSize - 2,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
   ),
   labelLarge: const TextStyle(
+    fontSize: defaultTextSize + 2,
+    fontWeight: FontWeight.w400,
+  ),
+  labelMedium: const TextStyle(
     fontSize: defaultTextSize,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
   ),
   labelSmall: const TextStyle(
     fontSize: defaultTextSize - 2,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
   ),
 );
 
 final darkTextTheme = ThemeData.dark().textTheme.copyWith(
   headlineLarge: const TextStyle(
     fontSize: defaultTextSize * 2,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
+  ),
+  headlineMedium: const TextStyle(
+    fontSize: defaultTextSize * 1.5,
+    fontWeight: FontWeight.w700,
+  ),
+  headlineSmall: const TextStyle(
+    fontSize: defaultTextSize * 1.2,
+    fontWeight: FontWeight.w700,
   ),
   titleLarge: const TextStyle(
-    fontSize: defaultTextSize * 1.3,
+    fontSize: defaultTextSize * 1.2,
     fontWeight: FontWeight.w600,
   ),
   titleMedium: const TextStyle(
     fontSize: defaultTextSize,
-    height: 1.5,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
   ),
   titleSmall: const TextStyle(
     fontSize: defaultTextSize - 2,
+    fontWeight: FontWeight.w600,
+  ),
+  bodyLarge: const TextStyle(
+    fontSize: defaultTextSize + 2,
     fontWeight: FontWeight.w500,
   ),
   bodyMedium: const TextStyle(
     fontSize: defaultTextSize,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
   ),
   bodySmall: const TextStyle(
     fontSize: defaultTextSize - 2,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
   ),
   labelLarge: const TextStyle(
+    fontSize: defaultTextSize + 2,
+    fontWeight: FontWeight.w400,
+  ),
+  labelMedium: const TextStyle(
     fontSize: defaultTextSize,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
   ),
   labelSmall: const TextStyle(
     fontSize: defaultTextSize - 2,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
   ),
 );
