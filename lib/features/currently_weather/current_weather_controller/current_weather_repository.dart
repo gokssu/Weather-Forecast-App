@@ -14,7 +14,7 @@ class CurrentWeatherRepository {
   Future<CurrentWeather> getCurrentLocation(GetCurrentParams params) async {
     try {
       final currentWeather = await currentWeatherService.getWithLocation(
-        Config.apiKeyOpenWeather,
+        'Config.apiKeyOpenWeather',
         params.unitCelsius ? 'metric' : 'imperial',
         params.langCode,
         params.lat.toString(),

@@ -61,7 +61,7 @@ class CitySearchBar extends HookConsumerWidget {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: GooglePlaceAutoCompleteTextField(
           textEditingController: controller,
-          googleAPIKey: Config.apiKeyGooglePlace,
+          googleAPIKey: 'Config.apiKeyGooglePlace',
           inputDecoration: InputDecoration(
             hintText: 'Search city'.tr(),
             border: InputBorder.none,
