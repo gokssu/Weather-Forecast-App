@@ -9,12 +9,15 @@ abstract class CurrentWeatherService {
   factory CurrentWeatherService(Dio dio, {String baseUrl}) =
       _CurrentWeatherService;
 
-  @GET('lat={lat}&lon={lon}&appid={apiKey}&units={units}&lang={lang}')
-  Future<CurrentWeather> getWithLocation(
+  @GET(
+    'weather?q={cityName}&lat={lat}&lon={lon}&appid={apiKey}&units={units}&lang={lang}',
+  )
+  Future<CurrentWeather> getCurrentWeather(
     @Path() String apiKey,
     @Path() String units,
     @Path() String lang,
     @Path() String lat,
     @Path() String lon,
+    @Path() String cityName,
   );
 }

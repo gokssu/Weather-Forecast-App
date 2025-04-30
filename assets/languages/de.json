@@ -10,6 +10,16 @@
   "Location error:": "Standortfehler:",
   "Open Location Settings": "Standort-Einstellungen öffnen",
   "Weather could not be received": "Wetter konnte nicht empfangen werden",
-  "Min:": "Mindestens :",
-  "Max:": "Maximale :"
+  "Min:": "Min :",
+  "Max:": "Max :",
+  "Feels Like:": "Gefühlt:",
+  "Humidity:": "Luftfeuchtigkeit:",
+  "Visibility:": "Sichtweite:",
+  "Wind:": "Wind:",
+  "Get Current Location": "Aktuellen Standort ermitteln",
+  "Search city": "Stadt suchen",
+  "Hourly Forecast": "Stündliche Vorhersage",
+  "Daily Detail": "Tägliches Detail",
+  "Time": "Zeit",
+  "Temp": "Temp"
 }

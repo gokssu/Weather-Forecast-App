@@ -4,20 +4,14 @@ import 'package:generated/generated.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:weather_forecast_app/core/utils/config.dart';
 import 'package:weather_forecast_app/core/widgets/loading_screen.dart';
-import 'package:weather_forecast_app/features/currently_weather/current_weather_controller/current_weather_provider.dart';
+import 'package:weather_forecast_app/core/widgets/units_switch_widget.dart';
 
-class CurrentWeatherWidget extends StatefulHookConsumerWidget {
+class CurrentWeatherWidget extends ConsumerWidget {
   const CurrentWeatherWidget({super.key, required this.weather});
   final CurrentWeather weather;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _CurrentWeatherWidgetState();
-}
-
-class _CurrentWeatherWidgetState extends ConsumerState<CurrentWeatherWidget> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isCelsius = ref.watch(isUnitCelsiusProvider);
     return Column(
       children: [
@@ -28,13 +22,13 @@ class _CurrentWeatherWidgetState extends ConsumerState<CurrentWeatherWidget> {
           ),
         ),
         Text(
-          '${widget.weather.cityName} ,${widget.weather.country}',
+          '${weather.cityName} ,${weather.country}',
           style: Theme.of(context).textTheme.headlineMedium!.copyWith(
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
         Image.network(
-          '${Config.imageUrl}${widget.weather.icon}@2x.png',
+          '${Config.imageUrl}${weather.icon}@2x.png',
           width: 200,
           height: 200,
           fit: BoxFit.cover,
@@ -47,29 +41,29 @@ class _CurrentWeatherWidgetState extends ConsumerState<CurrentWeatherWidget> {
           },
         ),
         Text(
-          '${widget.weather.temp} ${isCelsius ? '°C' : '°F'}',
+          '${weather.temp} ${isCelsius ? '°C' : '°F'}',
           style: Theme.of(context).textTheme.headlineMedium!.copyWith(
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
 
         Text(
-          '${widget.weather.mainWeather} - ${widget.weather.description}',
+          '${weather.mainWeather} - ${weather.description}',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            color: Theme.of(context).colorScheme.onSecondaryContainer,
+            color: Theme.of(context).colorScheme.tertiary,
           ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${'Max:'.tr()} ${widget.weather.tempMax} ${isCelsius ? '°C' : '°F'}  - ',
+              '${'Max:'.tr()} ${weather.tempMax} ${isCelsius ? '°C' : '°F'}  - ',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
             Text(
-              '${'Min:'.tr()} ${widget.weather.tempMin} ${isCelsius ? '°C' : '°F'}',
+              '${'Min:'.tr()} ${weather.tempMin} ${isCelsius ? '°C' : '°F'}',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Theme.of(context).colorScheme.primary,
               ),
@@ -78,39 +72,44 @@ class _CurrentWeatherWidgetState extends ConsumerState<CurrentWeatherWidget> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
-          child: Text(
-            '${'Feels Like:'.tr()} ${widget.weather.feelsLike} ${isCelsius ? '°C' : '°F'}',
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Text(
-            '${'Humidity:'.tr()} ${widget.weather.humidity} %',
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
-            ),
-          ),
-        ),
-        if (widget.weather.visibility != null && widget.weather.visibility != 0)
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              '${'Visibility:'.tr()} ${widget.weather.visibility! * 0.001} km ',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                '${'Feels Like:'.tr()} ${weather.feelsLike} ${isCelsius ? '°C' : '°F'}',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                ),
               ),
-            ),
+              Text(
+                '${'Humidity:'.tr()} ${weather.humidity} %',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                ),
+              ),
+            ],
           ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
-          child: Text(
-            '${'Wind:'.tr()} ${widget.weather.windSpeed} ༄',
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                (weather.visibility != null && weather.visibility != 0)
+                    ? '${'Visibility:'.tr()} ${weather.visibility! * 0.001} km '
+                    : '',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                ),
+              ),
+              Text(
+                '${'Wind:'.tr()} ${weather.windSpeed} ༄',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                ),
+              ),
+            ],
           ),
         ),
       ],

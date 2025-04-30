@@ -8,17 +8,16 @@ import 'package:weather_forecast_app/core/widgets/error_screen.dart';
 import 'package:weather_forecast_app/core/widgets/loading_screen.dart';
 import 'package:weather_forecast_app/core/widgets/units_switch_widget.dart';
 import 'package:weather_forecast_app/features/currently_weather/current_weather_controller/current_weather_provider.dart';
-import 'package:weather_forecast_app/features/currently_weather/current_weather_controller/current_weather_repository.dart';
-import 'package:weather_forecast_app/features/currently_weather/current_weather_controller/location_provider.dart';
+import 'package:weather_forecast_app/core/providers/location_provider.dart';
+import 'package:weather_forecast_app/features/currently_weather/current_weather_view/current_hourly_widget.dart';
 import 'package:weather_forecast_app/features/currently_weather/current_weather_view/current_weather_widget.dart';
 
-class CurrentWeatherScreen extends ConsumerWidget {
+class CurrentWeatherScreen extends HookConsumerWidget {
   const CurrentWeatherScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locationState = ref.watch(locationNotifierProvider);
-    final isCelsius = ref.watch(isUnitCelsiusProvider);
     return BaseWidget(
       resizeToAvoidBottomInset: true,
       childBody: locationState.when(
@@ -27,14 +26,7 @@ class CurrentWeatherScreen extends ConsumerWidget {
             return Center(child: Text('Location not found.').tr());
           }
           final currentWeather = ref.watch(
-            getCurrentProvider(
-              GetCurrentParams(
-                lat: position.latitude.toString(),
-                long: position.longitude.toString(),
-                unitCelsius: isCelsius,
-                langCode: context.locale.languageCode,
-              ),
-            ),
+            getCurrentProvider(context.locale.languageCode),
           );
           debugPrint(currentWeather.toString());
           return currentWeather.when(
@@ -49,6 +41,25 @@ class CurrentWeatherScreen extends ConsumerWidget {
                       child: UnitsSwitchWidget(position: position),
                     ),
                     CurrentWeatherWidget(weather: value),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Hourly Forecast'.tr(),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.headlineSmall!.copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      child: CurrentHourlyWidget(),
+                    ),
                   ],
                 ),
               );

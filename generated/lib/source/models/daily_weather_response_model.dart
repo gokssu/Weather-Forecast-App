@@ -15,7 +15,7 @@ class DailyWeatherResponse extends HiveObject {
   final City city;
 
   @HiveField(1)
-  final List<DailyWeather> list;
+  final List<HourlyWeather> list;
 
   Map<String, dynamic> toJson() => _$DailyWeatherResponseToJson(this);
 }

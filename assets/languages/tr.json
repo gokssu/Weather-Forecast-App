@@ -11,5 +11,15 @@
   "Open Location Settings": "Konum Ayarlarını Aç",
   "Weather could not be received": "Hava durumu alınamadı",
   "Min:": "En az :",
-  "Max:": "En fazla :"
+  "Max:": "En fazla :",
+  "Feels Like:": "Hissedilen:",
+  "Humidity:": "Nem:",
+  "Visibility:": "Görüş mesafesi:",
+  "Wind:": "Rüzgar:",
+  "Get Current Location": "Mevcut Konumu Al",
+  "Search city": "Şehir ara",
+  "Hourly Forecast": "Saatlik Tahmin",
+  "Daily Detail": "Günlük Detay",
+  "Time": "Saat",
+  "Temp": "Sıcaklık"
 }

@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import 'package:weather_forecast_app/features/currently_weather/current_weather_view/current_weather_screen.dart';
 import 'package:weather_forecast_app/features/daily_weather/daily_weather_view/daily_weather_screen.dart';
+import 'package:weather_forecast_app/features/daily_weather_detail_view/daily_weather_detail_screen.dart';
 import 'package:weather_forecast_app/features/home/home_view/home_screen.dart';
 import 'package:weather_forecast_app/features/settings/settings_view/settings_screen.dart';
 import 'package:weather_forecast_app/features/splash/splash_screen.dart';
@@ -13,6 +14,7 @@ class Routes {
   static const initial = '/';
   static const current = '/current';
   static const daily = '/daily';
+  static const dailyDetail = '/daily_detail/:date';
   static const settings = '/settings';
   static String build(String route, List<String> params) =>
       [route, ...params].join('/');
@@ -55,22 +57,22 @@ final routerProvider = Provider<GoRouter>((ref) {
                 child: DailyWeatherScreen(key: state.pageKey),
               );
             },
-            /* routes: [
-              GoRoute(   
-              parentNavigatorKey: shellNavigator,         
-              path: 'dailyDetail/:id',
-              name: dailyDetail,
-              pageBuilder: (context, state) {
-                final id = state.params['id'].toString();
-                return NoTransitionPage(
-                  child: DailyDetailScreen(
-                    id: int.parse(id),
-                    key: state.pageKey,
-                    )
+            routes: [
+              GoRoute(
+                parentNavigatorKey: shellNavigator,
+                path: Routes.dailyDetail,
+                name: Routes.dailyDetail,
+                pageBuilder: (context, state) {
+                  final date = state.pathParameters['date'].toString();
+                  return NoTransitionPage(
+                    child: DailyWeatherDetailScreen(
+                      date: date,
+                      key: state.pageKey,
+                    ),
                   );
-                }
-              )
-            ]*/
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: Routes.settings,

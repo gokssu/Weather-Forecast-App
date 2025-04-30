@@ -2,14 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:weather_forecast_app/core/utils/config.dart';
 import 'package:weather_forecast_app/features/currently_weather/current_weather_controller/current_weather_provider.dart';
-import 'package:weather_forecast_app/features/currently_weather/current_weather_controller/current_weather_repository.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
-import 'package:weather_forecast_app/features/currently_weather/current_weather_controller/location_provider.dart';
+import 'package:weather_forecast_app/features/daily_weather/daily_weather_controller/daily_weather_provider.dart';
 
 final selectedCityProvider = StateProvider<String>((ref) => '');
 
@@ -18,41 +16,16 @@ class CitySearchBar extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = useTextEditingController(text: 'Search city'.tr());
-    final isCelsius = ref.watch(isUnitCelsiusProvider);
-
+    final cityName = ref.watch(selectedCityProvider);
+    final controller = useTextEditingController(text: cityName);
     void search(String? query, String lat, String long) {
       if (query != null &&
           query.isNotEmpty &&
           lat.isNotEmpty &&
           long.isNotEmpty) {
         ref.read(selectedCityProvider.notifier).state = query;
-        ref
-            .read(locationNotifierProvider.notifier)
-            .setCustomPosition(
-              Position(
-                latitude: double.tryParse(lat) ?? 0,
-                longitude: double.tryParse(long) ?? 0,
-                timestamp: DateTime.now(),
-                accuracy: 1.0,
-                altitude: 0.0,
-                heading: 0.0,
-                speed: 0.0,
-                speedAccuracy: 1.0,
-                headingAccuracy: 1.0,
-                altitudeAccuracy: 1.0,
-              ),
-            );
-        ref.watch(
-          getCurrentProvider(
-            GetCurrentParams(
-              lat: lat,
-              long: long,
-              unitCelsius: isCelsius,
-              langCode: context.locale.languageCode,
-            ),
-          ),
-        );
+        ref.watch(getCurrentProvider(context.locale.languageCode));
+        ref.watch(getOneDayProvider(context.locale.languageCode));
       }
     }
 
@@ -61,7 +34,7 @@ class CitySearchBar extends HookConsumerWidget {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: GooglePlaceAutoCompleteTextField(
           textEditingController: controller,
-          googleAPIKey: 'Config.apiKeyGooglePlace',
+          googleAPIKey: Config.apiKeyGooglePlace,
           inputDecoration: InputDecoration(
             hintText: 'Search city'.tr(),
             border: InputBorder.none,

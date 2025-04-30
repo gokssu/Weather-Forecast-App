@@ -14,9 +14,26 @@ class City extends HiveObject {
     required this.country,
     required this.population,
     required this.timezone,
+    this.sunrise,
+    this.sunset,
   });
 
-  factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
+  factory City.fromJson(Map<String, dynamic> json) {
+    final coord = json['coord'] as Map<String, dynamic>?;
+
+    return City(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      lon: (coord?['lon'] as num?)?.toDouble(),
+      lat: (coord?['lat'] as num?)?.toDouble(),
+      country: json['country'] as String?,
+      population: json['population'] as int?,
+      timezone: json['timezone'] as int?,
+      sunrise: json['sunrise'] as int?,
+      sunset: json['sunset'] as int?,
+    );
+  }
+
   @HiveField(0)
   final int? id;
 
@@ -37,6 +54,12 @@ class City extends HiveObject {
 
   @HiveField(6)
   final int? timezone;
+
+  @HiveField(7)
+  final int? sunrise;
+
+  @HiveField(8)
+  final int? sunset;
 
   Map<String, dynamic> toJson() => _$CityToJson(this);
 }

@@ -4,7 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:weather_forecast_app/core/init/app_localization.dart';
 import 'package:weather_forecast_app/core/providers/theme_provider.dart';
 import 'package:weather_forecast_app/core/widgets/base_widget.dart';
-import 'package:weather_forecast_app/features/currently_weather/current_weather_controller/location_provider.dart';
+import 'package:weather_forecast_app/core/widgets/city_search_bar.dart';
+import 'package:weather_forecast_app/features/currently_weather/current_weather_controller/current_weather_provider.dart';
+import 'package:weather_forecast_app/core/providers/location_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -121,6 +123,8 @@ class SettingsScreen extends ConsumerWidget {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
+                  ref.read(selectedCityProvider.notifier).state = '';
+                  ref.watch(getCurrentProvider(context.locale.languageCode));
                   ref.read(locationNotifierProvider.notifier).refreshLocation();
                 },
                 child: Text('Get Current Location'.tr()),

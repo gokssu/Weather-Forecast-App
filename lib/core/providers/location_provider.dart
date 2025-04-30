@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-/// Provider tanımı
 final locationNotifierProvider =
     StateNotifierProvider<LocationNotifier, AsyncValue<Position?>>(
       (ref) => LocationNotifier(),
@@ -12,7 +11,7 @@ final locationNotifierProvider =
 /// Notifier
 class LocationNotifier extends StateNotifier<AsyncValue<Position?>> {
   LocationNotifier() : super(const AsyncLoading()) {
-    _getUserLocation(); // otomatik yükle
+    _getUserLocation();
   }
 
   Future<void> _getUserLocation() async {

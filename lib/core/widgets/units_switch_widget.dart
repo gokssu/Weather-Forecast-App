@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:weather_forecast_app/features/currently_weather/current_weather_controller/current_weather_provider.dart';
-import 'package:weather_forecast_app/features/currently_weather/current_weather_controller/current_weather_repository.dart';
+import 'package:weather_forecast_app/features/daily_weather/daily_weather_controller/daily_weather_provider.dart';
+
+final isUnitCelsiusProvider = StateProvider<bool>((ref) => true);
 
 class UnitsSwitchWidget extends HookConsumerWidget {
   final Position position;
@@ -27,16 +29,8 @@ class UnitsSwitchWidget extends HookConsumerWidget {
             value: isCelsius,
             onChanged: (val) {
               notifier.state = val;
-              ref.watch(
-                getCurrentProvider(
-                  GetCurrentParams(
-                    lat: position.latitude.toString(),
-                    long: position.longitude.toString(),
-                    unitCelsius: isCelsius,
-                    langCode: context.locale.languageCode,
-                  ),
-                ),
-              );
+              ref.watch(getCurrentProvider(context.locale.languageCode));
+              ref.watch(getOneDayProvider(context.locale.languageCode));
             },
             activeColor: Theme.of(context).colorScheme.inversePrimary,
           ),

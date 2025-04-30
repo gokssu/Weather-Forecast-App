@@ -13,12 +13,13 @@ class CurrentWeatherRepository {
 
   Future<CurrentWeather> getCurrentLocation(GetCurrentParams params) async {
     try {
-      final currentWeather = await currentWeatherService.getWithLocation(
-        'Config.apiKeyOpenWeather',
+      final currentWeather = await currentWeatherService.getCurrentWeather(
+        Config.apiKeyOpenWeather,
         params.unitCelsius ? 'metric' : 'imperial',
         params.langCode,
         params.lat.toString(),
         params.long.toString(),
+        params.cityName,
       );
       await _saveCurrentWeatherToLocal(currentWeather);
       return currentWeather;
@@ -37,12 +38,14 @@ class CurrentWeatherRepository {
 }
 
 class GetCurrentParams extends Equatable {
-  final String lat;
-  final String long;
+  final String cityName;
+  final double lat;
+  final double long;
   final bool unitCelsius;
   final String langCode;
 
   const GetCurrentParams({
+    required this.cityName,
     required this.lat,
     required this.long,
     required this.unitCelsius,
@@ -50,5 +53,5 @@ class GetCurrentParams extends Equatable {
   });
 
   @override
-  List<Object> get props => [lat, long, unitCelsius, langCode];
+  List<Object> get props => [cityName, long, unitCelsius, langCode];
 }

@@ -1,11 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:generated/generated.dart';
+import 'package:weather_forecast_app/core/providers/index.dart';
 import 'package:weather_forecast_app/core/utils/config.dart';
+import 'package:weather_forecast_app/core/widgets/city_search_bar.dart';
+import 'package:weather_forecast_app/core/widgets/units_switch_widget.dart';
 import 'package:weather_forecast_app/features/currently_weather/current_weather_controller/current_weather_repository.dart';
-
-// dioProvider
-final dioProvider = Provider<Dio>((ref) => Dio());
 
 // currentWetherServiceProvider
 final currentWetherServiceProvider = Provider<CurrentWeatherService>(
@@ -20,19 +19,20 @@ final currentWetherRepositoryProvider = Provider<CurrentWeatherRepository>(
   ),
 );
 
-final isUnitCelsiusProvider = StateProvider<bool>((ref) => true);
-
 final getCurrentProvider = FutureProvider.autoDispose
-    .family<CurrentWeather, GetCurrentParams>((ref, params) async {
-      final currentWeather = ref
+    .family<CurrentWeather, String>((ref, langCode) async {
+      final isCelsius = ref.watch(isUnitCelsiusProvider);
+      final cityName = ref.watch(selectedCityProvider);
+      final locationState = ref.watch(locationNotifierProvider);
+      final parameters = GetCurrentParams(
+        cityName: cityName,
+        lat: locationState.hasValue ? locationState.value?.latitude ?? 0 : 0,
+        long: locationState.hasValue ? locationState.value?.longitude ?? 0 : 0,
+        unitCelsius: isCelsius,
+        langCode: langCode,
+      );
+      final currentWeather = await ref
           .watch(currentWetherRepositoryProvider)
-          .getCurrentLocation(
-            GetCurrentParams(
-              lat: params.lat,
-              long: params.long,
-              unitCelsius: params.unitCelsius,
-              langCode: params.langCode,
-            ),
-          );
+          .getCurrentLocation(parameters);
       return currentWeather;
     });

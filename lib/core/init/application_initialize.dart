@@ -5,7 +5,6 @@ import 'package:easy_logger/easy_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:generated/generated.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:weather_forecast_app/core/init/app_environment.dart';
@@ -49,9 +48,13 @@ final class ApplicationInitialize {
 
     // Adapter List
     Hive.registerAdapter(CurrentWeatherAdapter());
+    Hive.registerAdapter(CityAdapter());
+    Hive.registerAdapter(HourlyWeatherAdapter());
+    Hive.registerAdapter(DailyWeatherResponseAdapter());
 
     // OpenBox
     await Hive.openBox<CurrentWeather>(Config.currentWeather);
+    await Hive.openBox<DailyWeatherResponse>(Config.dailyWeather);
 
     /// It must be call after [AppEnvironment.general()]
     // ProductContainer.setup();

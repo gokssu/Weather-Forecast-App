@@ -42,7 +42,7 @@ class CurrentWeather extends HiveObject {
     final weather =
         (weatherList != null && weatherList.isNotEmpty)
             ? weatherList.first as Map<String, dynamic>
-            : {};
+            : <String, dynamic>{};
 
     return CurrentWeather(
       lon: (coord?['lon'] as num?)?.toDouble(),
