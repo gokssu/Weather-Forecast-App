@@ -58,7 +58,7 @@ class CurrentHourlyWidget extends HookConsumerWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            '${item.temp} ${isCelsius ? '°C' : '°F'}',
+                            '${item.temp.toStringAsFixed(1)} ${isCelsius ? '°C' : '°F'}',
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ],

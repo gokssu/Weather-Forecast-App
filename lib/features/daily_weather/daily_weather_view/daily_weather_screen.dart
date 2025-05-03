@@ -23,7 +23,7 @@ class DailyWeatherScreen extends HookConsumerWidget {
       childBody: locationState.when(
         data: (position) {
           if (position == null) {
-            return Center(child: Text('Location not found.').tr());
+            return Center(child: Text('Location is not found.').tr());
           }
           final dailyWeather = ref.watch(
             get7DayProvider(context.locale.languageCode),
@@ -32,23 +32,31 @@ class DailyWeatherScreen extends HookConsumerWidget {
             data: (value) {
               return Padding(
                 padding: const EdgeInsets.all(16),
-                child: ListView(
-                  children: [
-                    CitySearchBar(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: UnitsSwitchWidget(position: position),
-                    ),
-                    Text(
-                      'Weekly Forecast'.tr(),
-                      style: Theme.of(
-                        context,
-                      ).textTheme.headlineSmall!.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    ref.invalidate(
+                      get7DayProvider(context.locale.languageCode),
+                    );
+                    ref.invalidate(locationNotifierProvider);
+                  },
+                  child: ListView(
+                    children: [
+                      CitySearchBar(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: UnitsSwitchWidget(position: position),
                       ),
-                    ),
-                    DailyWeatherWidget(weather: value),
-                  ],
+                      Text(
+                        'Weekly Forecast'.tr(),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.headlineSmall!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      DailyWeatherWidget(weather: value),
+                    ],
+                  ),
                 ),
               );
             },
@@ -64,7 +72,7 @@ class DailyWeatherScreen extends HookConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('${'Location error:'.tr()} $e'),
+                Text('${'Location error'.tr()}: $e'),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () async {

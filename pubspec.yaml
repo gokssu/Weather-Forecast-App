@@ -1,5 +1,5 @@
 name: weather_forecast_app
-description: "Weather Application"
+description: "Weather Forecast Application"
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 

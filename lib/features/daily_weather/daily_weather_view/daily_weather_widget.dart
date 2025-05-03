@@ -37,37 +37,52 @@ class DailyWeatherWidget extends ConsumerWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          DateFormat('MMMM d').format(DateTime.parse(day.date)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          DateFormat(
+                            'MMMM d',
+                            context.locale.toString(),
+                          ).format(DateTime.parse(day.date)),
                           style: Theme.of(context).textTheme.bodyMedium,
+                          textAlign: TextAlign.center,
                         ),
-                        CircleAvatar(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.secondaryContainer,
-                          child: Image.network(
-                            '${Config.imageUrl}${day.icon}@2x.png',
-                            width: 50,
-                            height: 50,
-                            errorBuilder:
-                                (_, __, ___) => const Icon(Icons.error),
+                      ),
+                      CircleAvatar(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondaryContainer,
+                        child: Image.network(
+                          '${Config.imageUrl}${day.icon}@2x.png',
+                          width: 50,
+                          height: 50,
+                          errorBuilder: (_, __, ___) => const Icon(Icons.error),
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            "${'Min'.tr()}: ${day.tempMin.toStringAsFixed(1)}${isCelsius ? '°C' : '°F'} ",
+                            style: Theme.of(context).textTheme.bodySmall,
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                        SizedBox(width: 8),
-                        Text(
-                          "${'Min:'.tr()} ${day.tempMin}${isCelsius ? '°C' : '°F'} ",
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
+                      ),
 
-                        Text(
-                          "${'Max:'.tr()} ${day.tempMax}${isCelsius ? '°C' : '°F'}",
-                          style: Theme.of(context).textTheme.bodySmall,
+                      Expanded(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            "${'Max'.tr()}: ${day.tempMax.toStringAsFixed(1)}${isCelsius ? '°C' : '°F'}",
+                            style: Theme.of(context).textTheme.bodySmall,
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

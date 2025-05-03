@@ -36,15 +36,29 @@ class DailyWeatherViewModel {
       final maxTemp = entries
           .map((e) => e.tempMax as num)
           .reduce((a, b) => a > b ? a : b);
-      final firstWeather = entries.first;
+
+      final iconCounts = <String, int>{};
+      final descriptionCounts = <String, int>{};
+
+      for (final entry in entries) {
+        iconCounts[entry.icon] = (iconCounts[entry.icon] ?? 0) + 1;
+        descriptionCounts[entry.description] =
+            (descriptionCounts[entry.description] ?? 0) + 1;
+      }
+      final mostFrequentIcon =
+          iconCounts.entries.reduce((a, b) => a.value >= b.value ? a : b).key;
+      final mostFrequentDescription =
+          descriptionCounts.entries
+              .reduce((a, b) => a.value >= b.value ? a : b)
+              .key;
 
       dailyList.add(
         DailyWeatherViewModel(
           date: date,
           tempMin: minTemp.toDouble(),
           tempMax: maxTemp.toDouble(),
-          icon: firstWeather.icon,
-          description: firstWeather.description,
+          icon: mostFrequentIcon,
+          description: mostFrequentDescription,
         ),
       );
     });

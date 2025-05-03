@@ -16,7 +16,10 @@ class CurrentWeatherWidget extends ConsumerWidget {
     return Column(
       children: [
         Text(
-          DateFormat('MMMM d, HH:mm').format(DateTime.now()),
+          DateFormat(
+            'MMMM d, HH:mm',
+            context.locale.toString(),
+          ).format(DateTime.now()),
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
             color: Theme.of(context).colorScheme.tertiary,
           ),
@@ -41,7 +44,7 @@ class CurrentWeatherWidget extends ConsumerWidget {
           },
         ),
         Text(
-          '${weather.temp} ${isCelsius ? '°C' : '°F'}',
+          '${weather.temp?.toStringAsFixed(1) ?? '-'} ${isCelsius ? '°C' : '°F'}',
           style: Theme.of(context).textTheme.headlineMedium!.copyWith(
             color: Theme.of(context).colorScheme.primary,
           ),
@@ -57,13 +60,13 @@ class CurrentWeatherWidget extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${'Max:'.tr()} ${weather.tempMax} ${isCelsius ? '°C' : '°F'}  - ',
+              '${'Max'.tr()}: ${weather.tempMax?.toStringAsFixed(1) ?? '-'} ${isCelsius ? '°C' : '°F'}  - ',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
             Text(
-              '${'Min:'.tr()} ${weather.tempMin} ${isCelsius ? '°C' : '°F'}',
+              '${'Min'.tr()}: ${weather.tempMin?.toStringAsFixed(1) ?? '-'} ${isCelsius ? '°C' : '°F'}',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Theme.of(context).colorScheme.primary,
               ),
@@ -76,13 +79,13 @@ class CurrentWeatherWidget extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                '${'Feels Like:'.tr()} ${weather.feelsLike} ${isCelsius ? '°C' : '°F'}',
+                '${'Feels Like'.tr()}: ${weather.feelsLike?.toStringAsFixed(1) ?? '-'} ${isCelsius ? '°C' : '°F'}',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onSecondaryContainer,
                 ),
               ),
               Text(
-                '${'Humidity:'.tr()} ${weather.humidity} %',
+                '${'Humidity'.tr()}: ${weather.humidity} %',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onSecondaryContainer,
                 ),
@@ -97,14 +100,14 @@ class CurrentWeatherWidget extends ConsumerWidget {
             children: [
               Text(
                 (weather.visibility != null && weather.visibility != 0)
-                    ? '${'Visibility:'.tr()} ${weather.visibility! * 0.001} km '
+                    ? '${'Visibility'.tr()}: ${weather.visibility! * 0.001} km '
                     : '',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onSecondaryContainer,
                 ),
               ),
               Text(
-                '${'Wind:'.tr()} ${weather.windSpeed} ༄',
+                '${'Wind'.tr()}: ${weather.windSpeed?.toStringAsFixed(1) ?? '-'} ༄',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onSecondaryContainer,
                 ),

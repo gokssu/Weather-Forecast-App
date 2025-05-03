@@ -32,11 +32,11 @@ class SettingsScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Dark Mode :',
+                  '${'Dark Mode'.tr()} :',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                ).tr(),
+                ),
                 Row(
                   children: [
                     IconButton(
@@ -68,11 +68,11 @@ class SettingsScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Language :',
+                  '${'Language'.tr()} :',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                ).tr(),
+                ),
                 Row(
                   children: [
                     Container(

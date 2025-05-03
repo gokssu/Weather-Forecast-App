@@ -11,6 +11,7 @@ import 'package:weather_forecast_app/features/currently_weather/current_weather_
 import 'package:weather_forecast_app/core/providers/location_provider.dart';
 import 'package:weather_forecast_app/features/currently_weather/current_weather_view/current_hourly_widget.dart';
 import 'package:weather_forecast_app/features/currently_weather/current_weather_view/current_weather_widget.dart';
+import 'package:weather_forecast_app/features/daily_weather/daily_weather_controller/daily_weather_provider.dart';
 
 class CurrentWeatherScreen extends HookConsumerWidget {
   const CurrentWeatherScreen({super.key});
@@ -23,7 +24,7 @@ class CurrentWeatherScreen extends HookConsumerWidget {
       childBody: locationState.when(
         data: (position) {
           if (position == null) {
-            return Center(child: Text('Location not found.').tr());
+            return Center(child: Text('Location is not found.').tr());
           }
           final currentWeather = ref.watch(
             getCurrentProvider(context.locale.languageCode),
@@ -33,34 +34,45 @@ class CurrentWeatherScreen extends HookConsumerWidget {
             data: (value) {
               return Padding(
                 padding: const EdgeInsets.all(16),
-                child: ListView(
-                  children: [
-                    CitySearchBar(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: UnitsSwitchWidget(position: position),
-                    ),
-                    CurrentWeatherWidget(weather: value),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Hourly Forecast'.tr(),
-                            style: Theme.of(
-                              context,
-                            ).textTheme.headlineSmall!.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        ],
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    ref.invalidate(
+                      getCurrentProvider(context.locale.languageCode),
+                    );
+                    ref.invalidate(locationNotifierProvider);
+                    ref.invalidate(
+                      getOneDayProvider(context.locale.languageCode),
+                    );
+                  },
+                  child: ListView(
+                    children: [
+                      CitySearchBar(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: UnitsSwitchWidget(position: position),
                       ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.2,
-                      child: CurrentHourlyWidget(),
-                    ),
-                  ],
+                      CurrentWeatherWidget(weather: value),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Hourly Forecast'.tr(),
+                              style: Theme.of(
+                                context,
+                              ).textTheme.headlineSmall!.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        child: CurrentHourlyWidget(),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
@@ -76,7 +88,7 @@ class CurrentWeatherScreen extends HookConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('${'Location error:'.tr()} $e'),
+                Text('${'Location error'.tr()}: $e'),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () async {
