@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:generated/generated.dart';
 import 'package:weather_forecast_app/core/providers/index.dart';
@@ -19,7 +20,10 @@ final dailyWetherRepositoryProvider = Provider<DailyWeatherRepository>(
 );
 
 final getOneDayProvider = FutureProvider.autoDispose
-    .family<DailyWeatherResponse, String>((ref, langCode) async {
+    .family<Either<Failure, DailyWeatherResponse>, String>((
+      ref,
+      langCode,
+    ) async {
       final isCelsius = ref.watch(isUnitCelsiusProvider);
       final cityName = ref.watch(selectedCityProvider);
       final locationState = ref.watch(locationNotifierProvider);
@@ -38,7 +42,10 @@ final getOneDayProvider = FutureProvider.autoDispose
     });
 
 final get7DayProvider = FutureProvider.autoDispose
-    .family<DailyWeatherResponse, String>((ref, langCode) async {
+    .family<Either<Failure, DailyWeatherResponse>, String>((
+      ref,
+      langCode,
+    ) async {
       final isCelsius = ref.watch(isUnitCelsiusProvider);
       final cityName = ref.watch(selectedCityProvider);
       final locationState = ref.watch(locationNotifierProvider);

@@ -2,9 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:weather_forecast_app/core/utils/config.dart';
-import 'package:weather_forecast_app/core/widgets/error_screen.dart';
-import 'package:weather_forecast_app/core/widgets/loading_screen.dart';
-import 'package:weather_forecast_app/core/widgets/units_switch_widget.dart';
+import 'package:weather_forecast_app/core/widgets/index.dart';
 import 'package:weather_forecast_app/features/daily_weather/daily_weather_controller/daily_weather_provider.dart';
 
 class CurrentHourlyWidget extends HookConsumerWidget {
@@ -13,33 +11,39 @@ class CurrentHourlyWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isCelsius = ref.watch(isUnitCelsiusProvider);
-    final hourlyWeather = ref.watch(
+    final hourlyWeatherAsync = ref.watch(
       getOneDayProvider(context.locale.languageCode),
     );
-    return hourlyWeather.when(
-      data: (hourlyWeather) {
-        final hourlyList = hourlyWeather.list;
-        return ListView(
-          scrollDirection: Axis.horizontal,
-          children:
-              hourlyList
-                  .map(
-                    (item) => Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8,
-                        right: 8,
-                        top: 8,
-                        bottom: 16,
+
+    return hourlyWeatherAsync.when(
+      data:
+          (
+            either,
+          ) => either.fold((failure) => ErrorHandlingScreen(failure: failure), (
+            hourlyWeather,
+          ) {
+            final hourlyList = hourlyWeather.list;
+            return ListView(
+              scrollDirection: Axis.horizontal,
+              children:
+                  hourlyList.map((item) {
+                    final time =
+                        item.dtTxt != null
+                            ? DateFormat(
+                              'HH:mm',
+                            ).format(DateTime.parse(item.dtTxt!))
+                            : '--:--';
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 16,
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            item.dtTxt != null
-                                ? DateFormat(
-                                  'HH:mm',
-                                ).format(DateTime.parse(item.dtTxt!))
-                                : '--:--',
+                            time,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           const SizedBox(height: 8),
@@ -58,16 +62,15 @@ class CurrentHourlyWidget extends HookConsumerWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            '${item.temp} ${isCelsius ? '°C' : '°F'}',
+                            '${item.temp.toStringAsFixed(1)} ${isCelsius ? '°C' : '°F'}',
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
                       ),
-                    ),
-                  )
-                  .toList(),
-        );
-      },
+                    );
+                  }).toList(),
+            );
+          }),
       error:
           (e, st) => SizedBox(
             height: 200,
@@ -75,7 +78,7 @@ class CurrentHourlyWidget extends HookConsumerWidget {
               errorMessage: 'Weather could not be received'.tr(),
             ),
           ),
-      loading: () => SizedBox(height: 200, child: const LoadingScreen()),
+      loading: () => const SizedBox(height: 200, child: LoadingScreen()),
     );
   }
 }

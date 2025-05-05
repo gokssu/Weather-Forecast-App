@@ -1,10 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:generated/source/models/index.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:weather_forecast_app/core/utils/config.dart';
-import 'package:weather_forecast_app/core/widgets/base_widget.dart';
-import 'package:weather_forecast_app/core/widgets/units_switch_widget.dart';
+import 'package:weather_forecast_app/core/widgets/index.dart';
 import 'package:weather_forecast_app/features/daily_weather/daily_weather_controller/daily_weather_provider.dart';
 
 class DailyWeatherDetailScreen extends HookConsumerWidget {
@@ -14,155 +12,162 @@ class DailyWeatherDetailScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isCelsius = ref.watch(isUnitCelsiusProvider);
-    final weeklyWeather =
-        ref.read(get7DayProvider(context.locale.languageCode)).value;
-    late List<HourlyWeather> dayHours = [];
-    if (weeklyWeather != null && weeklyWeather.list.isNotEmpty) {
-      for (var day in weeklyWeather.list) {
-        if (day.dtTxt != null &&
-            DateFormat('yyyy-MM-dd').format(DateTime.parse(day.dtTxt!)) ==
-                date) {
-          dayHours.add(day);
-        }
-      }
-    }
-    return BaseWidget(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Daily Detail'.tr(),
-          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
-      ),
-      childBody: Column(
-        children: [
-          Text(
-            DateFormat('MMMM d').format(DateTime.parse(date)),
+    final dailyWeatherAsync = ref.watch(
+      get7DayProvider(context.locale.languageCode),
+    );
 
-            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-          SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                'Time'.tr(),
-                style: Theme.of(context).textTheme.bodyMedium,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(width: 60),
-              Text(
-                'Temp'.tr(),
-                style: Theme.of(context).textTheme.bodySmall,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                'Feels Like:'.tr(),
-                style: Theme.of(context).textTheme.bodySmall,
-                textAlign: TextAlign.center,
-              ),
+    return dailyWeatherAsync.when(
+      data:
+          (
+            either,
+          ) => either.fold((failure) => ErrorHandlingScreen(failure: failure), (
+            weeklyWeather,
+          ) {
+            final dayHours =
+                weeklyWeather.list
+                    .where(
+                      (day) =>
+                          day.dtTxt != null &&
+                          DateFormat(
+                                'yyyy-MM-dd',
+                              ).format(DateTime.parse(day.dtTxt!)) ==
+                              date,
+                    )
+                    .toList();
 
-              Text(
-                'Humidity:'.tr(),
-                style: Theme.of(context).textTheme.bodySmall,
-                textAlign: TextAlign.center,
+            return BaseWidget(
+              appBar: AppBar(
+                centerTitle: true,
+                title: Text(
+                  'Daily Detail'.tr(),
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
               ),
+              childBody: Column(
+                children: [
+                  Text(
+                    DateFormat(
+                      'MMMM d',
+                      context.locale.toString(),
+                    ).format(DateTime.parse(date)),
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Row(
+                      children: [
+                        _headerText(context, 'Time', flex: 2),
+                        const Expanded(flex: 2, child: SizedBox()),
+                        _headerText(context, 'Temp', flex: 2),
+                        _headerText(
+                          context,
+                          'Feels Like',
+                          flex: 3,
+                          align: TextAlign.end,
+                        ),
+                        _headerText(context, 'Humidity', flex: 3),
+                        _headerText(context, 'Wind', flex: 2),
+                      ],
+                    ),
+                  ),
+                  const Divider(),
+                  Expanded(
+                    child: ListView.separated(
+                      separatorBuilder:
+                          (_, __) => const Divider(thickness: 0.7),
+                      itemCount: dayHours.length,
+                      itemBuilder: (context, index) {
+                        final item = dayHours[index];
+                        final time =
+                            item.dtTxt != null
+                                ? DateFormat(
+                                  'HH:mm',
+                                ).format(DateTime.parse(item.dtTxt!))
+                                : '--:--';
 
-              Text(
-                'Wind:'.tr(),
-                style: Theme.of(context).textTheme.bodySmall,
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-
-          Expanded(
-            child: ListView(
-              children:
-                  dayHours
-                      .map(
-                        (item) => Padding(
-                          padding: const EdgeInsets.only(
-                            right: 8,
-                            top: 8,
-                            bottom: 16,
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0,
+                            vertical: 6.0,
                           ),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text(
-                                item.dtTxt != null
-                                    ? DateFormat(
-                                      'HH:mm',
-                                    ).format(DateTime.parse(item.dtTxt!))
-                                    : '--:--',
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                              const SizedBox(width: 8),
-                              CircleAvatar(
-                                backgroundColor:
-                                    Theme.of(
-                                      context,
-                                    ).colorScheme.secondaryContainer,
-                                child: Image.network(
-                                  '${Config.imageUrl}${item.icon}@2x.png',
-                                  width: 40,
-                                  height: 40,
-                                  errorBuilder:
-                                      (_, __, ___) => const Icon(Icons.error),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '${item.temp} ${isCelsius ? '°C' : '°F'}',
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                              Text(
-                                '${item.feelsLike} ${isCelsius ? '°C' : '°F'}',
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.bodyMedium!.copyWith(
-                                  color:
+                              _cellText(time, context),
+                              Expanded(
+                                child: CircleAvatar(
+                                  backgroundColor:
                                       Theme.of(
                                         context,
-                                      ).colorScheme.onSecondaryContainer,
+                                      ).colorScheme.secondaryContainer,
+                                  child: Image.network(
+                                    '${Config.imageUrl}${item.icon}@2x.png',
+                                    width: 50,
+                                    height: 50,
+                                    errorBuilder:
+                                        (_, __, ___) => const Icon(Icons.error),
+                                  ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '${item.humidity} %',
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.bodyMedium!.copyWith(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.onSecondaryContainer,
-                                ),
+                              _cellText(
+                                '${item.temp.toStringAsFixed(1)}${isCelsius ? '°C' : '°F'}',
+                                context,
                               ),
-                              Text(
-                                '${item.windSpeed} ༄',
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.bodyMedium!.copyWith(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.onSecondaryContainer,
-                                ),
+                              _cellText(
+                                '${item.feelsLike.toStringAsFixed(1)}${isCelsius ? '°C' : '°F'}',
+                                context,
+                              ),
+                              _cellText('${item.humidity}%', context),
+                              _cellText(
+                                '${item.windSpeed.toStringAsFixed(1)} ༄',
+                                context,
                               ),
                             ],
                           ),
-                        ),
-                      )
-                      .toList(),
-            ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+      error:
+          (e, st) => BaseWidget(
+            appBar: AppBar(title: const Text('Daily Detail')),
+            childBody: Center(child: Text('Weather could not be loaded'.tr())),
           ),
-        ],
+      loading: () => const LoadingScreen(),
+    );
+  }
+
+  Widget _headerText(
+    BuildContext context,
+    String text, {
+    required int flex,
+    TextAlign align = TextAlign.center,
+  }) {
+    return Expanded(
+      flex: flex,
+      child: Text(
+        text.tr(),
+        textAlign: align,
+        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+          color: Theme.of(context).colorScheme.tertiary,
+        ),
+      ),
+    );
+  }
+
+  Widget _cellText(String text, BuildContext context) {
+    return Expanded(
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(text, style: Theme.of(context).textTheme.bodyMedium),
       ),
     );
   }

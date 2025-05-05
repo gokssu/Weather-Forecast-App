@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 import 'package:weather_forecast_app/core/utils/config.dart';
 import 'package:equatable/equatable.dart';
+import 'package:dartz/dartz.dart';
 
 class DailyWeatherRepository {
   final HourlyWeatherService hourlyWeatherService;
@@ -10,7 +11,9 @@ class DailyWeatherRepository {
       Hive.box<DailyWeatherResponse>(Config.dailyWeather);
   DailyWeatherRepository({required this.hourlyWeatherService});
 
-  Future<DailyWeatherResponse> getDailyLocation(GetDailyParams params) async {
+  Future<Either<Failure, DailyWeatherResponse>> getDailyLocation(
+    GetDailyParams params,
+  ) async {
     try {
       final dailyWeatherResponse = await hourlyWeatherService.getDailyWeather(
         Config.apiKeyOpenWeather,
@@ -23,11 +26,13 @@ class DailyWeatherRepository {
       );
 
       await _saveDailyWeatherToLocal(dailyWeatherResponse);
-      return dailyWeatherResponse;
+      return Right(dailyWeatherResponse);
     } catch (e) {
-      return _dailyWeatherBox.values.isNotEmpty
-          ? _dailyWeatherBox.values.last
-          : throw Exception('No cached data');
+      final failure = NetworkFailure.process(e);
+      if (_dailyWeatherBox.values.isNotEmpty) {
+        return Right(_dailyWeatherBox.values.last);
+      }
+      return Left(failure);
     }
   }
 

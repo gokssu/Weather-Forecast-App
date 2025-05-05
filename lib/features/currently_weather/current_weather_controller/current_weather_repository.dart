@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:generated/generated.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
@@ -11,7 +12,9 @@ class CurrentWeatherRepository {
   );
   CurrentWeatherRepository({required this.currentWeatherService});
 
-  Future<CurrentWeather> getCurrentLocation(GetCurrentParams params) async {
+  Future<Either<Failure, CurrentWeather>> getCurrentLocation(
+    GetCurrentParams params,
+  ) async {
     try {
       final currentWeather = await currentWeatherService.getCurrentWeather(
         Config.apiKeyOpenWeather,
@@ -22,11 +25,13 @@ class CurrentWeatherRepository {
         params.cityName,
       );
       await _saveCurrentWeatherToLocal(currentWeather);
-      return currentWeather;
+      return Right(currentWeather);
     } catch (e) {
-      return _currentWeatherBox.values.isNotEmpty
-          ? _currentWeatherBox.values.last
-          : throw Exception('No cached data');
+      final failure = NetworkFailure.process(e);
+      if (_currentWeatherBox.values.isNotEmpty) {
+        return Right(_currentWeatherBox.values.last);
+      }
+      return Left(failure);
     }
   }
 
