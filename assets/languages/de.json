@@ -22,5 +22,22 @@
   "Daily Detail": "Tägliches Detail",
   "Time": "Zeit",
   "Temp": "Temp",
-  "Weekly Forecast": "Wochenprognose"
+  "Weekly Forecast": "Wochenprognose",
+  "Error": "Fehler",
+  "OK": "OK",
+  "Not Implemented": "Nicht implementiert",
+  "Request Cancelled": "Anfrage abgebrochen",
+  "Internal Server Error": "Interner Serverfehler",
+  "Service unavailable": "Dienst nicht verfügbar",
+  "Method not allowed": "Methode nicht erlaubt",
+  "Bad request": "Ungültige Anfrage",
+  "Unexpected error occurred": "Unerwarteter Fehler ist aufgetreten",
+  "Connection request timeout": "Verbindungszeitüberschreitung",
+  "No internet connection": "Keine Internetverbindung",
+  "Error due to a conflict": "Fehler aufgrund eines Konflikts",
+  "Send timeout in connection with API server": "Zeitüberschreitung bei Verbindung mit dem API-Server",
+  "Unable to process the data": "Daten konnten nicht verarbeitet werden",
+  "Incorrect format": "Falsches Format",
+  "Not acceptable": "Nicht akzeptabel",
+  "Unauthorized user": "Nicht autorisierter Benutzer"
 }

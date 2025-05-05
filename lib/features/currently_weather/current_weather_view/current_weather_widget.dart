@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:generated/generated.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:weather_forecast_app/core/utils/config.dart';
-import 'package:weather_forecast_app/core/widgets/loading_screen.dart';
-import 'package:weather_forecast_app/core/widgets/units_switch_widget.dart';
+import 'package:weather_forecast_app/core/widgets/index.dart';
 
 class CurrentWeatherWidget extends ConsumerWidget {
   const CurrentWeatherWidget({super.key, required this.weather});
