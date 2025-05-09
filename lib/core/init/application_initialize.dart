@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:generated/generated.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logger/logger.dart';
-import 'package:weather_forecast_app/core/init/app_environment.dart';
 import 'package:weather_forecast_app/core/utils/config.dart';
 
 @immutable
@@ -62,7 +61,7 @@ final class ApplicationInitialize {
 
   /// DO NOT CHANGE THIS METHOD
   void _productEnvironmentWithContainer() {
-    AppEnvironment.general();
+    // AppEnvironment.general();
 
     /// It must be call after [AppEnvironment.general()]
     // ProductContainer.setup();
