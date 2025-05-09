@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:generated/source/index.dart';
-import 'package:retrofit/http.dart';
+import 'package:retrofit/retrofit.dart';
 
 part 'hourly_weather_service.g.dart';
 
