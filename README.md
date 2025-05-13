@@ -4,9 +4,14 @@ Weather forecast app that fetches real-time weather data using the Open-
 WeatherMap API. The app should display current weather, a 7-day forecast, and
 detailed information for each day, such as temperature, humidity, wind speed,
 and weather conditions.
+
+
 📸 Screenshots
+
 <img src="https://github.com/user-attachments/assets/ce85f5f3-9ee1-4cc6-b5e4-a7994309ba8f" width="200">
+
 <img src="https://github.com/user-attachments/assets/8831c487-3d1d-4e70-babc-0077641aef09" width="200">
+
 <img src="https://github.com/user-attachments/assets/9cc1758e-38b8-44dc-aa1b-c619b1adfe35" width="200">
 
 <img src="https://github.com/user-attachments/assets/210d549c-a33f-4a3d-87ba-2aeb401f2956" width="200">
@@ -22,6 +27,7 @@ and weather conditions.
 <img src="https://github.com/user-attachments/assets/7384c4eb-ae9f-4c1c-91de-8e372fab1738" width="200">
 
 <img src="https://github.com/user-attachments/assets/42e504c9-af78-493b-af86-0bca64ba776f" width="200">
+
 <img src="https://github.com/user-attachments/assets/a2d216cb-d384-4527-ae9a-56acff93f9ad" width="200">
 
 <img src="https://github.com/user-attachments/assets/f62579e6-b90a-47b1-968e-53f97baa5691" width="200">
